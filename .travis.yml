@@ -13,8 +13,5 @@ script:
   # Syntax Check
   - ansible-playbook -i localhost, tests/test.yml --syntax-check
 
-  # Run tests.yml
-  - ansible-playbook -i localhost, --connection=local --sudo tests/test.yml
-
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
