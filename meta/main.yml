@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: unxnn
+  description: Role for upgrading kernel of RHEL7 to version 4.X
+  company: none
+  license: MIT
+  min_ansible_version: 2.3
+  platforms:
+    - name: EL
+      versions:
+        - 7
+  galaxy_tags:
+    - system
+    - kernel
+    - update
+
+dependencies: []

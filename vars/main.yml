@@ -1,0 +1,4 @@
+---
+
+kernel4_yum_exclude:
+  - kernel

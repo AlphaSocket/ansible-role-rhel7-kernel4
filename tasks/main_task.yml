@@ -1,0 +1,53 @@
+---
+
+- name: Install elrepo repository
+  yum_repository:
+    name: elrepo-kernel
+    description: ELRepo.org Community Enterprise Linux Kernel Repository - el7
+    baseurl: http://elrepo.org/linux/kernel/el7/$basearch/
+    mirrorlist: http://mirrors.elrepo.org/mirrors-elrepo-kernel.el7
+    gpgcheck: yes
+    gpgkey: https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+    enabled: yes
+
+- name: Install kernel-ml
+  yum:
+    name: kernel-ml
+    enablerepo: elrepo-kernel
+    state: present
+
+- name: Register kernel version
+  shell: "cat /etc/grub2.cfg | grep menuentry | grep elrepo | head -1 | awk -F \"'\" '{print $2}'"
+  ## shell command is necessay to get boot_kernel_version
+  tags: skip_ansible_lint
+  register: boot_kernel_version_output
+  changed_when: false
+
+- name: Set kernel version
+  set_fact: boot_kernel_version={{ boot_kernel_version_output.stdout }}
+
+- name: Exclude kernel from yum update
+  lineinfile:
+    path: /etc/yum.conf
+    state: present
+    regexp: '^\s*exclude='
+    line: "exclude={{ kernel4_yum_exclude }}"
+
+- name: Remove old kernel
+  yum:
+    name: kernel.x86_64
+    state: absent
+  when:
+    - "'el7.elrepo.x86_64' in ansible_kernel"
+
+- name: Template grubenv
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: 'boot/grub2/grubenv.j2',
+        dest: '/boot/grub2/grubenv',
+        mode: '0644' }
