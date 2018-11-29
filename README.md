@@ -18,7 +18,7 @@ None.
 
     - hosts: docker
       roles:
-        - { role: unxnn.ansible-rhel7-kernel4 }
+        - { role: unxnn.ansible_rhel7_kernel4 }
 
 # License
 
