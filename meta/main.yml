@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: rhel7_kernel4
   author: unxnn
   description: Role for upgrading kernel of RHEL7 to version 4.X
   company: none
