@@ -3,4 +3,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - ansible-rhel7-kernel4
+    - ansible-role-rhel7-kernel4
